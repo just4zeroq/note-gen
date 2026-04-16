@@ -28,6 +28,8 @@ import { InlineMath, BlockMath } from './math-extension'
 import { MermaidDiagram } from './mermaid-extension'
 import { MathEditorDialog } from './math-editor-dialog'
 import { SearchReplacePanel } from './search-replace-panel'
+import { createWikiLinkExtension } from '@/lib/links/extensions'
+import { wikiLinkSuggestion } from './wikilink-suggestion'
 import { useEffect, useRef, useCallback, useState } from 'react'
 import { Store } from '@tauri-apps/plugin-store'
 import { openUrl } from '@tauri-apps/plugin-opener'
@@ -43,6 +45,7 @@ import { ImageBubbleMenu } from './image-bubble-menu'
 import { toast } from '@/hooks/use-toast'
 import { FloatingTableMenu } from './floating-table-menu'
 import { FooterBar } from './footer-bar/index'
+import { BacklinkPanel } from './backlink-panel'
 import { Outline } from './outline'
 import { SlashCommand, suggestionOptions } from './slash-command'
 import { SlashCommandPortal } from './slash-command/slash-command-portal'
@@ -58,7 +61,7 @@ import { StableCodeBlockLowlight } from './code-block-extension'
 import { shouldTransformImageSrcToWorkspaceAsset } from './image-src'
 import useSettingStore from '@/stores/setting'
 import useChatStore from '@/stores/chat'
-import { Loader2, X } from 'lucide-react'
+import { Loader2, X, Link2, List, Filter, SortAsc, LayoutGrid, Kanban, Plus, Trash2, Edit2, GripVertical, ChevronDown, ChevronRight, MoreHorizontal } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { buildMobileSelectionContext, isMobileSelectionContextStale } from './mobile-selection-context'
 import { MobileEditorContextBar } from './mobile-editor-context-bar'
@@ -241,6 +244,7 @@ export function TipTapEditor({
   const [mobileContext, setMobileContext] = useState<MobileSelectionContext>(null)
   const [mobileSheetMode, setMobileSheetMode] = useState<MobileSheetMode>(null)
   const [mobileOutlineOpen, setMobileOutlineOpen] = useState(false)
+  const [backlinkPanelOpen, setBacklinkPanelOpen] = useState(false)
   const [imageSrcDraft, setImageSrcDraft] = useState('')
   const [imageAltDraft, setImageAltDraft] = useState('')
   const aiActionHandlersRef = useRef({
@@ -273,6 +277,22 @@ export function TipTapEditor({
     }
     loadCenteredContent()
   }, [])
+
+  // 处理 WikiLink 点击跳转
+  useEffect(() => {
+    const handleWikiLinkNavigate = (event: CustomEvent<{ id: string; type: string }>) => {
+      const { id, type } = event.detail
+      console.log('[WikiLink] Navigate to:', id, type)
+      // TODO: 实现跳转逻辑
+    }
+
+    window.addEventListener('wikilink-navigate', handleWikiLinkNavigate as EventListener)
+
+    return () => {
+      window.removeEventListener('wikilink-navigate', handleWikiLinkNavigate as EventListener)
+    }
+  }, [])
+
   // Bug fix: Track when editor is ready (has caught up with content)
   const isReadyRef = useRef(false)
   // Bug fix: Track if this is the first onUpdate after initialization
@@ -435,7 +455,10 @@ export function TipTapEditor({
         HTMLAttributes: {
           class: 'max-w-full h-auto rounded-lg',
         },
-      }),
+}),
+      // WikiLink 扩展 (传入 suggestion 配置)
+      createWikiLinkExtension()[0],
+      createWikiLinkExtension()[1],
       // 自定义粘贴 Markdown 扩展
       PasteMarkdown,
     ],
@@ -2529,6 +2552,13 @@ export function TipTapEditor({
         />
       )}
 
+      {/* 背面板 */}
+      <BacklinkPanel
+        docId={activeFilePath || ''}
+        isOpen={backlinkPanelOpen}
+        onClose={() => setBacklinkPanelOpen(false)}
+      />
+
       {/* AI Generation Overlay */}
       {showOverlay && (
         <div className="absolute inset-0 z-50 flex items-start justify-end p-4 bg-background/20 pointer-events-none">
@@ -2554,6 +2584,8 @@ export function TipTapEditor({
         editor={editor}
         outlineOpen={effectiveOutlineOpen}
         onToggleOutline={handleOutlineToggle}
+        backlinkOpen={backlinkPanelOpen}
+        onToggleBacklink={() => setBacklinkPanelOpen((prev) => !prev)}
       />
 
       <SlashCommandPortal />

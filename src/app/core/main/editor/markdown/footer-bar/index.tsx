@@ -7,6 +7,7 @@ import { CopyButton } from './copy-button'
 import { ExportButton } from './export-button'
 import { SyncTools } from '../sync/sync-tools'
 import { OutlineToggle } from './outline-toggle'
+import { BacklinkToggle } from './backlink-toggle'
 import { SyncButton } from '../sync/sync-button'
 import { PullButton } from '../sync/pull-button'
 import { HistorySheet } from '../sync/history-sheet'
@@ -17,12 +18,16 @@ interface FooterBarProps {
   editor: Editor
   outlineOpen?: boolean
   onToggleOutline?: () => void
+  backlinkOpen?: boolean
+  onToggleBacklink?: () => void
 }
 
 export function FooterBar({
   editor,
   outlineOpen,
   onToggleOutline,
+  backlinkOpen,
+  onToggleBacklink,
 }: FooterBarProps) {
   const activeFilePath = useArticleStore((state) => state.activeFilePath)
   const isMobile = isMobileDevice()
@@ -62,6 +67,11 @@ export function FooterBar({
           editor={editor}
           outlineOpen={outlineOpen}
           onToggleOutline={onToggleOutline}
+        />
+        <BacklinkToggle
+          editor={editor}
+          backlinkOpen={backlinkOpen}
+          onToggleBacklink={onToggleBacklink}
         />
       </div>
 

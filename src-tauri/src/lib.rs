@@ -4,6 +4,9 @@ mod device;
 mod backup;
 mod skills;
 mod ai;
+mod attribute_view;
+mod refs;
+mod plugin;
 
 use mcp::{start_mcp_stdio_server, stop_mcp_server, send_mcp_message, McpServerManager};
 use mcp_runtime::{cancel_mcp_runtime_install, inspect_mcp_runtime, install_mcp_runtime, RuntimeInstallManager};

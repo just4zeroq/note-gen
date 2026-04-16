@@ -1,0 +1,246 @@
+/* 属性视图样式 */
+
+/* 属性视图容器 */
+.av-block {
+  margin: 16px 0;
+}
+
+.av-block-container {
+  background: hsl(var(--background));
+}
+
+/* 表格视图 */
+.av-table-container {
+  overflow: auto;
+}
+
+.av-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.av-table th {
+  position: sticky;
+  top: 0;
+  background: hsl(var(--muted));
+  padding: 8px 12px;
+  text-align: left;
+  font-weight: 500;
+  border-bottom: 1px solid hsl(var(--border));
+  white-space: nowrap;
+}
+
+.av-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid hsl(var(--border));
+  vertical-align: middle;
+}
+
+.av-table tr:hover td {
+  background: hsl(var(--accent) / 0.5);
+}
+
+/* 单元格编辑 */
+.av-cell {
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+.av-cell-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.av-cell-input:focus {
+  background: hsl(var(--background));
+  outline: 1px solid hsl(var(--primary));
+}
+
+/* 复选框单元格 */
+.av-cell-checkbox {
+  display: flex;
+  justify-content: center;
+}
+
+/* 选择单元格 */
+.av-cell-select {
+  min-width: 120px;
+}
+
+/* 看板视图 */
+.av-kanban-container {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  overflow-x: auto;
+}
+
+.av-kanban-column {
+  min-width: 280px;
+  max-width: 280px;
+  background: hsl(var(--muted) / 0.5);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.av-kanban-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.av-kanban-column-title {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.av-kanban-column-count {
+  font-size: 12px;
+  color: hsl(var(--muted-foreground));
+  background: hsl(var(--muted));
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.av-kanban-card {
+  background: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: box-shadow 0.15s ease;
+}
+
+.av-kanban-card:hover {
+  box-shadow: 0 2px 8px hsl(var(--ring) / 0.15);
+}
+
+.av-kanban-card-field {
+  margin-bottom: 6px;
+}
+
+.av-kanban-card-field:last-child {
+  margin-bottom: 0;
+}
+
+.av-kanban-card-label {
+  font-size: 11px;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 2px;
+}
+
+.av-kanban-card-value {
+  font-size: 13px;
+  color: hsl(var(--foreground));
+}
+
+/* 画廊视图 */
+.av-gallery-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
+
+.av-gallery-card {
+  background: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.15s ease;
+}
+
+.av-gallery-card:hover {
+  box-shadow: 0 4px 12px hsl(var(--ring) / 0.15);
+}
+
+.av-gallery-card-cover {
+  height: 120px;
+  background: hsl(var(--muted));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.av-gallery-card-body {
+  padding: 12px;
+}
+
+.av-gallery-card-title {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.av-gallery-card-desc {
+  font-size: 12px;
+  color: hsl(var(--muted-foreground));
+}
+
+/* 列头操作 */
+.av-column-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.av-column-menu {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.av-table th:hover .av-column-menu {
+  opacity: 1;
+}
+
+/* 标签样式 */
+.av-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* 空状态 */
+.av-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  text-align: center;
+}
+
+.av-empty-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 16px;
+  color: hsl(var(--muted-foreground));
+}
+
+.av-empty-title {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.av-empty-desc {
+  font-size: 14px;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 16px;
+}
+
+/* 暗色主题 */
+.dark .av-kanban-column {
+  background: hsl(var(--muted) / 0.3);
+}

@@ -13,6 +13,9 @@ mod device;
 mod skills;
 mod tray;
 mod ai;
+mod refs;
+mod attribute_view;
+mod plugin;
 
 use screenshot::{cleanup_temp_screenshot_dir, screenshot};
 use fuzzy_search::{fuzzy_search, fuzzy_search_parallel};
@@ -23,6 +26,8 @@ use mcp::{start_mcp_stdio_server, stop_mcp_server, send_mcp_message, McpServerMa
 use mcp_runtime::{cancel_mcp_runtime_install, inspect_mcp_runtime, install_mcp_runtime, RuntimeInstallManager};
 use device::get_device_id;
 use ai::{ai_binary_request, ai_chat_completion_stream, ai_json_request, ai_multipart_request, cancel_ai_request, AiRequestManager};
+use refs::{save_doc_refs, get_forward_links, get_backlinks, get_link_stats, search_refs};
+use attribute_view::*;
 
 fn main() {
     tauri::Builder::default()
@@ -75,6 +80,29 @@ fn main() {
             ai_multipart_request,
             ai_chat_completion_stream,
             cancel_ai_request,
+            // 双向链接
+            save_doc_refs,
+            get_forward_links,
+            get_backlinks,
+            get_link_stats,
+            search_refs,
+            // 属性视图
+            create_attribute_view,
+            get_attribute_views,
+            get_attribute_view_detail,
+            add_av_column,
+            update_av_column,
+            delete_av_column,
+            add_av_row,
+            delete_av_row,
+            get_av_row_cells,
+            get_av_rows,
+            set_av_cell,
+            delete_attribute_view,
+            add_av_view,
+            update_av_view,
+            delete_av_view,
+            rename_attribute_view,
         ])
 
         // 应用设置 - 在所有插件和命令注册后
